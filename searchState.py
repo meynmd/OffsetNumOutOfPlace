@@ -166,7 +166,7 @@ def weightedManhattanDistanceAllPeg(searchState):
 
 
 #HEURISTIC 1b for report purposes
-def offsetNumDiscsOutOfPlaceAllPeg(searchState):
+def WeightedNumDiscsOutOfPlaceAllPeg(searchState):
     start = time.time()
     cost = 0
     goalPeg = searchState.tower.pegs[0]
@@ -174,10 +174,10 @@ def offsetNumDiscsOutOfPlaceAllPeg(searchState):
 
     # count occurences of discs not being in the proper order on the goal post
     for i in range(0, pegSize):
-        addCost = pegSize - (i + 1)
+        weight = (pegSize - (i + 1))
 	expectedDisc = searchState.tower.maxDiscSize - i
         if goalPeg[i] != expectedDisc:
-	    cost += 2 + addCost
+	    cost += weight
 
     # Same process for other posts, but prefer reverse order, so expected disc is just i
     # here we will add 1 to the cost, since even if the discs are in perfect reverse order
@@ -186,9 +186,7 @@ def offsetNumDiscsOutOfPlaceAllPeg(searchState):
         if not thisPeg == goalPeg:
             thisPegSize = len(thisPeg)
             for i in range(0, thisPegSize):
-                
-                addCost = pegSize - (i + 1)
-                
+                weight = (pegSize - (i + 1))
                 if thisPeg[i] != i:
 		    cost += 1
 
